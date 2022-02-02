@@ -3,4 +3,4 @@ import skimage
 
 
 print(torch.cuda.is_available())
-print("a")
+print("abc")
