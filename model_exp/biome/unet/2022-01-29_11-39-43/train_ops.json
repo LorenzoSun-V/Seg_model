@@ -1,0 +1,81 @@
+{
+ "SEED": 42,
+ "DEVICE_IDS": "0",
+ "USE_DDP": false,
+ "LOG_DIR": "../model_exp/biome/unet/2022-01-29_11-39-43",
+ "RELOAD_PTH": null,
+ "dataset": {
+  "model_exp": "../model_exp",
+  "task_name": "biome",
+  "train_dir": "/media/lorenzo/26DA3A93DA3A5F6D/data/datasets/SemanticSegmentation/Biome_cut",
+  "train_val_split": "Ture",
+  "train_val_split_ratio": 0.1
+ },
+ "aug": {
+  "is_aug": true,
+  "SCALE": 1.125,
+  "Mean": [
+   0.5,
+   0.5,
+   0.5,
+   0.5
+  ],
+  "Std": [
+   0.5,
+   0.5,
+   0.5,
+   0.5
+  ],
+  "HW": [
+   512,
+   512
+  ],
+  "HFLIP": true,
+  "VFLIP": false,
+  "BLUR": true,
+  "Brightness": 25,
+  "ROTATE": 10,
+  "CROP": true
+ },
+ "model": {
+  "model_name": "unet",
+  "pretrained": false,
+  "pretrained_model_url": "",
+  "n_channels": 4,
+  "num_classes": 3,
+  "bn": "bn",
+  "loss": "ce"
+ },
+ "ddp": {
+  "WORLD_SIZE": 1,
+  "RANK": 0,
+  "LOCAL_RANK": 0,
+  "DIST_BACKEND": "nccl",
+  "DIST_URL": "tcp://127.0.0.1:23456",
+  "NUM_WORKERS": 8,
+  "NPROCS": 4
+ },
+ "train": {
+  "optim": "sgd",
+  "base_lr": 0.005,
+  "use_balanced_weights": false,
+  "total_epochs": 150,
+  "warmup_cosdecay": 10,
+  "batch_size": 16,
+  "load_model": false,
+  "model_file": "",
+  "print_freq": 10,
+  "checkpoint_epochs": [
+   50,
+   100
+  ]
+ },
+ "test": {
+  "test_dir": "/mnt/shy/sjh/Seg_data/iccv09Data/images",
+  "test_save_dir": "/mnt/shy/sjh/Seg_data/iccv09Data/masks_UNet",
+  "color_save_dir": "/mnt/shy/sjh/Seg_data/iccv09Data/masks_color_UNet",
+  "model_path": "/mnt/shy/sjh/seg_model/model_exp/unet/stanford/2021-11-11_18-20-22/model_final_150.pth",
+  "gpu": "5",
+  "batch_size": 16
+ }
+}

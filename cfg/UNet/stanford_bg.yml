@@ -1,0 +1,62 @@
+SEED: 666 # random seed for reproduce results
+DEVICE_IDS: '2'
+USE_DDP: False
+LOG_DIR: ""
+RELOAD_PTH: ~
+
+
+dataset:
+    model_exp: '../model_exp'
+    task_name: 'stanford'
+    train_dir: '/mnt/shy/sjh/Seg_data/iccv09Data'
+    train_val_split: Ture
+    train_val_split_ratio: 0.1
+
+aug:
+    is_aug: False
+    SCALE: 1.125
+    HW: [384, 384]
+    HFLIP: True
+    VFLIP: False
+    COLOR_JITTER: True
+    ROTATE: 10
+    CROP: True
+
+model:
+    model_name: 'unet'
+    pretrained: False
+    pretrained_model_url: ""
+    num_classes: 8
+    bn: 'bn'
+    loss: 'ce'
+
+ddp:
+    WORLD_SIZE: 1
+    RANK: 0
+    LOCAL_RANK: 0
+    DIST_BACKEND: 'nccl' # 'nccl', 'gloo'
+    DIST_URL: 'tcp://127.0.0.1:23456'  # "env://"  # 'tcp://127.0.0.1:23456'
+    NUM_WORKERS: 8
+    NPROCS: 4
+
+train:
+    optim: 'sgd'
+    base_lr: 0.001
+    # base_lr: 0.03
+    total_epochs: 150
+    warmup_cosdecay: 10
+    batch_size: 16
+    load_model: False
+    model_file: ""
+    print_freq: 10
+    checkpoint_epochs: [50,100,]
+
+test:
+    # model_dir: '2019-0701-1906-53-100-stepDecay-0629c/'
+    # model_dir: '2019-0626-1458-16-100-stepDecay-0619c/'
+    test_dir: "/mnt/shy/sjh/Seg_data/iccv09Data/images"
+    test_save_dir: "/mnt/shy/sjh/Seg_data/iccv09Data/masks_UNet"
+    color_save_dir: "/mnt/shy/sjh/Seg_data/iccv09Data/masks_color_UNet"
+    model_path: '/mnt/shy/sjh/seg_model/model_exp/unet/stanford/2021-11-11_18-20-22/model_final_150.pth'
+    gpu: '5'
+    batch_size: 16

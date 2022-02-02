@@ -1,0 +1,67 @@
+SEED: 666 # random seed for reproduce results
+DEVICE_IDS: '1,2,3,4'
+USE_DDP: True
+LOG_DIR: ""
+RELOAD_PTH: ~
+
+
+dataset:
+    model_exp: '../model_exp'
+    task_name: 'rice'
+    train_dir: '/mnt2/sjh/seg_data/myRICE'
+    train_val_split: True
+    train_val_split_ratio: 0.1
+
+aug:
+    is_aug: True
+    SCALE: 1.125
+    Mean: [0.485, 0.456, 0.406]
+    Std: [0.229, 0.224, 0.225]
+    HW: [513, 513]
+    HFLIP: True
+    VFLIP: False
+    BLUR: True
+    Brightness: 25
+    ROTATE: 10
+    CROP: True
+
+model:
+    model_name: 'deeplab'
+    backbone: 'resnet'  #  resnet, xception, drn, mobilenet
+    pretrained: True
+    pretrained_model_url: ""
+    num_classes: 19
+    bn: 'syncbn'
+    loss: 'ce'
+
+ddp:
+    WORLD_SIZE: 1
+    RANK: 0
+    LOCAL_RANK: 0
+    DIST_BACKEND: 'nccl' # 'nccl', 'gloo'
+    DIST_URL: 'tcp://127.0.0.1:23456'  # "env://"  # 'tcp://127.0.0.1:23456'
+    NUM_WORKERS: 8
+    NPROCS: 4
+
+train:
+    optim: 'sgd'
+    base_lr: 0.01
+    use_balanced_weights: False
+    # base_lr: 0.03
+    total_epochs: 120
+    warmup_cosdecay: 10
+    batch_size: 32
+    load_model: False
+    model_file: ""
+    print_freq: 10
+    checkpoint_epochs: [50,100,]
+
+test:
+    # model_dir: '2019-0701-1906-53-100-stepDecay-0629c/'
+    # model_dir: '2019-0626-1458-16-100-stepDecay-0619c/'
+    test_dir: "/mnt2/sjh/seg_data/myCityscapes/images/val"
+    test_save_dir: "/mnt2/sjh/seg_data/myCityscapes/masks_DeepLab"
+    color_save_dir: "/mnt2/sjh/seg_data/myCityscapes/masks_color_DeepLab"
+    model_path: '/mnt/shy/sjh/seg_model/model_exp/cityspaces/deeplab/2021-12-09_16-38-14/model_best_acc.pth'
+    gpu: '5'
+    batch_size: 64
